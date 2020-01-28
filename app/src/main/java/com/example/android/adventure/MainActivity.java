@@ -11,15 +11,18 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     int rand = (int) (Math.random() * 100) + 1;
-    int ctr = 1;
+    int ctr = 0;
     int lefttray = 10;
-
+//protected static final String TAG = MainActivity.class.getSimpleName();
     int desiredValue = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Log.v(TAG,"desired value is:" + desiredValue);
 
     }
 
@@ -28,26 +31,34 @@ public class MainActivity extends AppCompatActivity {
      */
     public void display(View view) {
 
+
         // Get input from User
         EditText nameField = findViewById(R.id.name_field);
         Editable nameEditable = nameField.getText();
-        String value = nameEditable.toString();
-        desiredValue = Integer.parseInt(value);
+        if (!nameEditable.toString().equals("")) {
+            String value = nameEditable.toString();
+            desiredValue = Integer.parseInt(value);
 
 
-        if (ctr < 10 && rand > desiredValue) {
-             int left =  lefttray - ctr;
+            //Log.v("Mainactivity","nameEditable!!!!!!!!!!!!!!!!!"+nameEditable);
 
-            displayMessage("You still have "+ left +" Tray. " + "\n" + " Tray again, Larger Than That");
-        }
-        if (ctr < 10 && rand < desiredValue) {
-            int left = lefttray - ctr;
-            displayMessage("You still have "+ left +" Tray. " + "\n" + " Try again, Smaller Than That");
-        }
+            if (ctr < 10 && rand > desiredValue) {
+                int left = lefttray - ctr;
+                displayMessage("You still have " + left + " Tray. " + "\n" + " Tray again, Larger Than That");
+                // displayMessage("value entered"+ value);
+
+            }
+            if (ctr < 10 && rand < desiredValue) {
+                int left = lefttray - ctr;
+                displayMessage("You still have " + left + " Tray. " + "\n" + " Try again, Smaller Than That");
+            }
+            if (ctr < 10 && desiredValue > 100) {
+                displayMessage("Number out of range, it should be between 1 ad 100");
+            }
 
             if (ctr < 10 && rand == desiredValue) {
                 int left = lefttray - ctr;
-                displayMessage(" You had "+ left +" tray."+"\n"+ " You Won! "+rand+" Is the Number");
+                displayMessage(" You had " + left + " tray." + "\n" + " You Won! " + rand + " Is the Number");
             }
             if (ctr == 10) {
                 displayMessage("You lost! that's the number " + " " + rand);
@@ -55,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             ctr++;
+        } else {
+          displayMessage("Input not valid");
         }
+    }
         private void displayMessage (String message){
             TextView priceTextView = (TextView) findViewById(R.id.number_text_view);
             priceTextView.setText(message);
